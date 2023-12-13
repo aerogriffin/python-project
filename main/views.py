@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import LogInUsers
+from django.urls import reverse_lazy, reverse
 
 def home(request):
     return render(request, "main/base.html")
@@ -21,7 +22,7 @@ def logIn( request ):
                 login(request, user)
                 nextPage=request.GET.get('next')
                 if ( nextPage is None ):
-                    nextPage = reverse(' ') # Completar con el nombre de la pág inicial
+                    nextPage = reverse('main') 
                 return redirect (nextPage)
             else:
                 error='User or password incorrect'
@@ -39,4 +40,4 @@ def logIn( request ):
 
 def logOut( request ):
     logout( request )
-    return redirect (' ') # Completar con el nombre de la pág inicial
+    return redirect ('main') 
