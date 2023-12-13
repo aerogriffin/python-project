@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from .forms import LogInUsers
 from django.urls import reverse_lazy, reverse
+from django.contrib.auth.decorators import login_required, permission_required
 
 def home(request):
     return render(request, "main/base.html")
 
-
+@login_required(login_url=reverse_lazy('login'))
+@permission_required( ['gest_hospital.view_medico'], raise_exception=True) 
 def members(request):
     return render(request, "main/members.html")
 
