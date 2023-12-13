@@ -7,7 +7,7 @@ def home(request):
     return render(request, "main/base.html")
 
 @login_required(login_url=reverse_lazy('login'))
-@permission_required( ['gest_hospital.view_medico'], raise_exception=True) 
+@permission_required( ['members'], raise_exception=True) 
 def members(request):
     return render(request, "main/members.html")
 
