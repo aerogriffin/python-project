@@ -22,7 +22,7 @@ def logIn( request ):
                 login(request, user)
                 nextPage=request.GET.get('next')
                 if ( nextPage is None ):
-                    nextPage = reverse('main') 
+                    nextPage = reverse('home') 
                 return redirect (nextPage)
             else:
                 error='User or password incorrect'
@@ -40,4 +40,4 @@ def logIn( request ):
 
 def logOut( request ):
     logout( request )
-    return redirect ('main') 
+    return redirect ('home') 
