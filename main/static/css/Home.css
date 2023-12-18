@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Mina&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+body{
+  font-family: 'Mina', sans-serif;
+  background-color: #1B1726;
+}
+
+img{
+  max-width: 100%;
+}
+
+.container{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header{
+  background-image: url(../../static/images/portada.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  min-height: 80vh;
+  padding: 80px 0;
+  height: 650px;
+}
+
+.menu-container{
+  position: absolute;
+  top: 0;
+  left: 100px;
+  right: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo{
+  color: #57F0DE;
+  font-size: 25px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.menu-container .navbar ul li{
+  position: relative;
+  float: left;
+}
+
+.menu-container .navbar ul li a{
+  font-size: 18px;
+  padding: 20px;
+  color: aliceblue;
+  font-weight: 600;
+  display: block;
+}
+
+.menu-container .navbar ul li a:hover{
+  color: #6F3AA4
+}
+
+#menu{
+  display: none;
+}
+
+.menu-icono{
+  width: 25px;
+}
+
+.menu-container label{
+  cursor: pointer;
+  display: none;
+  
+}
+
+.header-content{
+  display: flex;
+}
+
+.header-txt{
+  flex-basis: 50%;
+}
+
+.header-txt h1{
+ font-size: 60px;
+ color: #FFFFFF;
+ line-height: 1.3;
+ margin-bottom: 25px;
+}
+
+.header-txt span{
+  color: #06D2AC;
+}
+
+.header-txt p{
+  font-size: 17px;
+  color: #E0E0E0;
+  margin-bottom: 45px;
+}
+
+.buttons{
+  display: flex;
+}
+
+.btn-1, .btn-2{
+  display: inline-block;
+  padding: 11px 35px;
+  border: 2px solid #06D2AC;
+  border-radius: 25px;
+  margin-right: 25px;
+  font-size: 17px;
+  color: #FFFFFF;
+}
+
+.btn-1:hover{
+  background-color: #206975;
+}
+
+.footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0;
+}
+
+.link ul li > a{
+  font-size: 17px;
+  color: #FFFFFF;
+  margin-right: 20px;
+}
+
+.link ul li > a:hover{
+  color: #6F3AA4;
+}
+
+/*MEDIA QUERIES*/
+  @media(max-width:991px){
+    .menu-container{
+      padding: 20px;
+    }
+
+    .menu-container label{
+      display: initial;
+    }
+
+    .menu-container .navbar{
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: #30285A;
+      opacity: 0.8;
+      display: none;
+    }
+
+    .menu-container .navbar il li a:hover{
+      color: #1B1726;
+    }
+
+    .menu-container .navbar ul li{
+      width: 100%;
+    }
+
+    #menu:checked ~ .navbar{
+      display: initial;
+    }
+
+    .header{
+      min-height: 0vh;
+      padding: 80px 30px 50px 30px;
+    }
+
+    .header-txt{
+      text-align: center;
+      flex-basis: 100%;
+    }
+
+    .header-txt h1{
+      font-size: 50px;
+      margin-bottom: 15px;
+    }
+
+    .buttons{
+      justify-content: center;
+    }
+
+    .btn-1:last-of-type{
+      margin-right: 0;
+    }
+
+    .footer{
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .link ul{
+      margin-top: 20px;
+    }
+  }
