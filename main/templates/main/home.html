@@ -1,4 +1,66 @@
 {% extends 'main/base.html' %}
 {% block content %}
-  
+  <!DOCTYPE html>
+<html>
+  <head>
+    <title>Chromecraft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../static/css/Home.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+    integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <header class="header">
+
+      <div class="menu-container">
+        <a href="#" class="logo">LOGO</a>
+        <input type="checkbox" id="menu" />
+        <label for="menu">
+          <img src="../../static/images/menu.png" class="menu-icono" alt="menu">
+        </label>
+        <nav class="navbar">
+          <ul>
+            <li><a href="#">Convert</a></li>
+            <li><a href="#">Optimize</a></li>
+            <li><a href="Login.html">Login</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="#">About</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="header-content container">
+        <div class="header-txt">
+          <h1>Turn your <span>videos</span> <br> in something unique</h1>
+          <p>
+            Chromacraft has been trusted by our users and customers since its 
+            founding in 2023. No one except you will ever have access to your files. 
+            We earn money by selling access to our API, not by selling your data. 
+            Read more about that in our Privacy Policy
+          </p>
+          <div class="buttons">
+            <a href="#" class="btn-1">Information</a>
+            <a href="#" class="btn-1">Videos</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <footer class="footer container">
+
+      <div class="link">
+        <a href="#" class="logo">LOGO</a>
+      </div>
+
+      <div class="link">
+        <ul>
+          <li><a href="#">© 2023 Chromacraft Made in Krakow, Poland</a></li>
+        </ul>
+      </div>
+
+    </footer>
+  </body>
+</html>
+
 {% endblock %}
