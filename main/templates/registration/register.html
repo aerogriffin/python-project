@@ -1,30 +1,54 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../static/css/Login.css" />
 </head>
+
 <body>
-    <h1>Register</h1>
-    {% if errors %}
-    <ul>
-        {% for error in errors %}
-        <li style="color: red;">{{ error }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    <form method="post">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email">
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <input type="submit" value="Register">
-    </form>
-    <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+    <header class="header">
+        <div class="menu-container">
+            <a href="#" class="logo">LOGO</a>
+            <input type="checkbox" id="menu" />
+        </div>
+        <div class="container" id="container">
+            <div class="form-container sign-in">
+                {% if errors %}
+                <ul>
+                    {% for error in errors %}
+                    <li style="color: red;">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    <h1>Create Account</h1>
+                    <span>Enter the following information</span>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                    <br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                    <br>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <br>
+                    <input type="submit" value="Register">
+                </form>
+            </div>
+
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-right">
+                        <h1>Hello Friend!</h1>
+                        <p>Register your personal details to use all of site features</p>
+                        <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 </body>
 </html>
