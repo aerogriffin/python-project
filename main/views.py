@@ -1,45 +1,21 @@
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from .forms import LogInUsers
-from django.urls import reverse_lazy, reverse
-from django.contrib.auth.decorators import login_required, permission_required
+
 
 def home(request):
-    return render(request, "main/base.html")
+    return render(request, "main/home.html")
 
-@login_required(login_url=reverse_lazy('login'))
-@permission_required( ['members'], raise_exception=True) 
-def members(request):
-    return render(request, "main/members.html")
 
-def logIn( request ):
-    if ( request.method == 'POST'):
-        form = LogInUsers(request.POST)
-        if ( form.is_valid()):
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if ( user is not None):
-                if ( request.user.is_authenticated ):
-                    logout(request)
-                login(request, user)
-                nextPage=request.GET.get('next')
-                if ( nextPage is None ):
-                    nextPage = reverse('home') 
-                return redirect (nextPage)
-            else:
-                error='User or password incorrect'
-                return render(request, LOGIN_USUARIOS, {'form':form, 'errorMsg':error })
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect("/")
         else:
-            error="The data in some form field is incorrect"
-            return render(request, LOGIN_USUARIOS, {'form':form, 'errorMsg':error })
+            return render(request, "main/login.html", {"error": "Invalid username or password"})
     else:
-        form = LogInUsers()
-        if ( request.GET.get('error403') is None):
-            error=None
-        else:
-            error='Operation not permitted. Use an account with sufficient permissions'
-        return render(request, LOGIN_USUARIOS, {'form':form, 'errorMsg': error })
-
-def logOut( request ):
-    logout( request )
-    return redirect ('home') 
+        return render(request, "main/login.html")
