@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
 from .forms import RegistrationForm, VideoUploadForm
+from .models import UserProfile
 
 
 def home(request):
@@ -46,3 +47,16 @@ def upload_video(request):
     else:
         form = VideoUploadForm()
     return render(request, "main/upload.html", {"form": form})
+
+
+def account_profile(request):
+    user = request.user
+    user_profile, created = UserProfile.objects.get_or_create(
+        user=user,
+        defaults={"username": user.username, "email": user.email},
+    )
+    return render(
+        request,
+        "main/account_profile.html",
+        {"username": user_profile.username, "email": user_profile.email},
+    )
