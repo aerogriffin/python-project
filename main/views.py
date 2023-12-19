@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
@@ -18,9 +19,9 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect("/")
         else:
-            return render(request, "main/login.html", {"error": "Invalid username or password"})
+            return render(request, "registration/login.html", {"error": "Invalid username or password"})
     else:
-        return render(request, "main/login.html")
+        return render(request, "registration/login.html")
 
 
 def register(request):
@@ -32,9 +33,10 @@ def register(request):
             return redirect("/")
     else:
         form = RegistrationForm()
-    return render(request, "main/register.html", {"form": form})
+    return render(request, "registration/register.html", {"form": form})
 
 
+@login_required
 def upload_video(request):
     if request.method == "POST":
         form = VideoUploadForm(request.POST, request.FILES)
