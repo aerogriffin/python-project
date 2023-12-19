@@ -1,12 +1,9 @@
 import os
 
 from PIL import Image
-from moviepy.editor import AudioFileClip
-from moviepy.editor import TextClip
-from moviepy.editor import VideoFileClip
+from moviepy.editor import AudioFileClip, TextClip, VideoFileClip
 from moviepy.video import fx
 from moviepy.video.fx import all as vfx
-from moviepy.video.io.VideoFileClip import VideoFileClip
 from moviepy.video.io.ffmpeg_tools import concatenate_videoclips
 
 
