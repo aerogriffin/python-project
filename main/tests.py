@@ -20,7 +20,7 @@ class UserRegistrationTestCase(TestCase):
         self.assertTrue("_auth_user_id" in self.client.session)
 
     def test_user_registration_with_existing_username(self):
-        existing_user = User.objects.create_user(
+        User.objects.create_user(
             username="existinguser",
             email="existinguser@example.com",
             password="password",
@@ -37,7 +37,7 @@ class UserRegistrationTestCase(TestCase):
         self.assertIn("Username is already taken.", form.errors["username"])
 
     def test_user_registration_with_existing_email(self):
-        existing_user = User.objects.create_user(
+        User.objects.create_user(
             username="existinguser",
             email="existinguser@example.com",
             password="password",
