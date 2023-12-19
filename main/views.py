@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, VideoUploadForm
 
 
 def home(request):
@@ -33,3 +33,14 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, "main/register.html", {"form": form})
+
+
+def upload_video(request):
+    if request.method == "POST":
+        form = VideoUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+    else:
+        form = VideoUploadForm()
+    return render(request, "main/upload.html", {"form": form})
