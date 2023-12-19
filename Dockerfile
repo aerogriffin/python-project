@@ -1,12 +1,18 @@
-FROM python:3.8
+FROM python:3.11-slim
 
-WORKDIR /app
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt /app/
+WORKDIR /usr/src/app
 
+COPY requirements.txt /usr/src/app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app/
+COPY . /usr/src/app/
+
+# Collect static files
+RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
