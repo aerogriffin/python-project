@@ -1,8 +1,57 @@
-{% block content %}
-  <h2>Upload Video</h2>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-  </form>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Chromecraft</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../../static/css/Upload.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+    integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <header class="header">
+
+    <div class="menu-container">
+      <a href="{% url 'home' %}" class="logo">LOGO</a>
+      <input type="checkbox" id="menu" />
+      <label for="menu">
+        <img src="../../static/images/menu.png" class="menu-icono" alt="menu">
+      </label>
+      <nav class="navbar">
+        <ul>
+          <li><a href="{% url 'upload_video' %}" class="btn btn-primary">Convert</a></li>
+          <li><a href="{% url 'register' %}">Register</a></li>
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="main">
+      <h2>Upload Video</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+      </form>
+    </div>
+  </header>
+
+  <footer class="footer container">
+
+    <div class="link">
+      <a href="#" class="logo">LOGO</a>
+    </div>
+
+    <div class="link">
+      <ul>
+        <li><a href="#">© 2023 Chromacraft Made in Krakow, Poland</a></li>
+      </ul>
+    </div>
+
+  </footer>
+
+</body>
+</html>
