@@ -24,6 +24,9 @@ def login_view(request):
     else:
         return render(request, "registration/login.html")
 
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect("/")
 
 def register(request):
     if request.method == "POST":
