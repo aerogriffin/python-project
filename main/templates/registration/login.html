@@ -1,11 +1,43 @@
-{% if error %}
-<p><strong>{{ error }}</strong></p>
-{% endif %}
-<form method="post">
-{% csrf_token %}
-<label for="username">Username:</label>
-<input type="text" id="username" name="username">
-<label for="password">Password:</label>
-<input type="password" id="password" name="password">
-<input type="submit" value="Login">
-</form>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../static/css/Login.css" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="menu-container">
+            <a href="#" class="logo">LOGO</a>
+            <input type="checkbox" id="menu" />
+        </div>
+        <div class="container" id="container">
+            {% if error %}
+            <p><strong>{{ error }}</strong></p>
+            {% endif %}
+            <div class="form-container sign-in">
+                <form method="post">
+                    {% csrf_token %}
+                    <h1>Sign In</h1>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password">
+                    <button><input type="submit" value="Login"></button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-right">
+                        <h1>Welcome back!</h1>
+                        <p>Enter with your personal details to use all of site features</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</body>
+
+</html>
