@@ -14,6 +14,12 @@ Install dependencies:
 python3 -m pip install -r requirements.txt
 ```
 
+Generate DB:
+```python
+python manage.py makemigrations
+python manage.py migrate
+```
+
 Run server:
 ```python
 python manage.py runserver
