@@ -14,17 +14,23 @@
             <input type="checkbox" id="menu" />
         </div>
         <div class="container" id="container">
-            {% if error %}
-            <p><strong>{{ error }}</strong></p>
-            {% endif %}
             <div class="form-container sign-in">
                 <form method="post">
                     {% csrf_token %}
                     <h1>Sign In</h1>
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username">
+                    {% if form.username.errors %}
+                        <div style="color: red;">{{ form.username.errors.as_text }}</div>
+                    {% endif %}
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password">
+                    {% if form.password.errors %}
+                        <div style="color: red;">{{ form.password.errors.as_text }}</div>
+                    {% endif %}
+                    {% if form.non_field_errors %}
+                        <div style="color: red;">{{ form.non_field_errors.as_text }}</div>
+                    {% endif %}
                     <input type="submit" value="Login">
                 </form>
             </div>
@@ -33,6 +39,7 @@
                     <div class="toggle-panel toggle-right">
                         <h1>Welcome back!</h1>
                         <p>Enter with your personal details to use all of site features</p>
+                        <p>Don't have an account? <a href="{% url 'register' %}">Sign up</a>.</p>
                     </div>
                 </div>
             </div>
