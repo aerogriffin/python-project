@@ -24,7 +24,7 @@ body {
     overflow: hidden;
     width: 768px;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 600px;
 }
 
 .container p {
@@ -46,16 +46,7 @@ body {
 }
 
 .container input[type="submit"] {
-  padding: 5px 15px;
-  background: #ccc;
-  border: 0 none;
-  cursor: pointer;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
-
-.container button {
-    background-color: #593873;
+  background-color: #593873;
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
@@ -68,10 +59,6 @@ body {
     cursor: pointer;
 }
 
-.container button.hidden {
-    background-color: transparent;
-    border-color: #fff;
-}
 
 .container form {
     background-color: #fff;
@@ -315,5 +302,9 @@ img {
     .header-txt h1 {
       font-size: 50px;
       margin-bottom: 15px;
+    }
+
+    .container{
+      margin-top: 50px;
     }
 }
