@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Mina&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Trochut&display=swap');
+
+
+
+
 
 *{
   margin: 0;
@@ -145,6 +150,94 @@ img{
 .btn-1:hover{
   background-color: #206975;
 }
+
+/* styles.css */
+.main h2{
+  color: #FFFFFF;
+  font-family: 'Bruno Ace';
+  font-size: 90px;
+  margin-top: 30px;
+}
+
+form {
+  width: 300px;
+  margin: auto;
+  
+}
+
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  color: #FFFFFF;
+  font-family: 'Trochut';
+  font-size: 50px;
+}
+
+
+form input[type="file"] {
+  display: inline-block;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 20px 50px;
+  border: 3px solid #57F0DE;
+  border-radius: 10px;
+  margin-left: -50px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+}
+.custom-file-input::before {
+  content: 'Seleccionar archivo'; /* Cambia este texto según tus preferencias */
+
+}
+input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden;
+  width: 30px;
+}
+input[type="file"]::before {
+  content: 'Select a video:';
+}
+.custom-file-input-label {
+  content: '';
+}
+
+form input[type="file"]:hover {
+  animation: pulsate 1s
+  ease-in-out;
+}
+
+@keyframes pulsate {
+  0%{
+    box-shadow: 
+    0 0 55px #06D2AC,
+    0 0 100px #206975;
+  }
+  
+}
+
+/* Estilos para los mensajes de error */
+form .errorlist {
+  color: red;
+  margin-top: 5px;
+}
+
+/* Estilos para el botón de envío */
+form button {
+  /* Estilos específicos para el botón de envío */
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #028CAD;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
 
 .footer{
   display: flex;
