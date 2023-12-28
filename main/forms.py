@@ -5,7 +5,9 @@ from .models import Video
 
 
 class VideoUploadForm(forms.ModelForm):
-    video_file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=["mp4", "mov", "avi"])])
+    video_file = forms.FileField(
+        validators=[FileExtensionValidator(allowed_extensions=["mp4", "mov", "avi"])]
+    )
 
     class Meta:
         model = Video
