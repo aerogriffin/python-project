@@ -30,7 +30,8 @@ def upload_video(request):
     if request.method == "POST":
         form = VideoUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            video_instance = form.save()
+            request.user.userprofile.videos.add(video_instance)
             return redirect("/")
     else:
         form = VideoUploadForm()
@@ -43,8 +44,9 @@ def account_profile(request):
         user=user,
         defaults={"username": user.username, "email": user.email},
     )
+    user_videos = user_profile.videos.all()
     return render(
         request,
         "main/account_profile.html",
-        {"username": user_profile.username, "email": user_profile.email},
+        {"username": user_profile.username, "email": user_profile.email, "user_videos": user_videos},
     )
