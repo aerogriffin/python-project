@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Mina&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Lexend+Tera:wght@500&family=Trochut&display=swap');
 
 * {
   margin: 0;
@@ -46,32 +47,48 @@ body {
 }
 
 .container input[type="submit"] {
-  padding: 5px 15px;
-  background: #ccc;
-  border: 0 none;
-  cursor: pointer;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
+  border: 3px solid;
+  font-family: 'Lexend Tera', sans-serif;
 }
 
-.container button {
-    background-color: #593873;
-    color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-top: 10px;
-    cursor: pointer;
+.container input[type="submit"]:hover {
+  box-shadow: 0 0 20px #06D2AC;
+  border-color: #57F0DE;
 }
 
-.container button.hidden {
-    background-color: transparent;
-    border-color: #fff;
+.container input[type="submit"] span:nth-child(n){
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 3px solid;
+  transition: all 0.5s ease;
 }
+
+.container input[type="submit"] span:nth-child(1){
+  right: 10%;
+  top: -10px;
+  background-color: #1B1726;
+}
+
+.container input[type="submit"] span:nth-child(2){
+  left: 10%;
+  bottom: -10px;
+}
+
+.container input[type="submit"]:hover span:nth-child(1){
+  right: 80%;
+  transform: rotate(90deg);
+  color: #06D2AC;
+  background-color: #57F0DE;
+}
+
+.container input[type="submit"]:hover span:nth-child(2){
+  left: 80%;
+  transform: rotate(90deg);
+  color: #06D2AC;
+}
+
+
 
 .container form {
     background-color: #fff;
