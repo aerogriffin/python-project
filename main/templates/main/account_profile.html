@@ -10,5 +10,21 @@
     <h1>User Profile</h1>
     <p>Username: {{ username }}</p>
     <p>Email: {{ email }}</p>
+    <h2>Videos Uploaded</h2>
+    {% if user_videos %}
+        <ul>
+            {% for video in user_videos %}
+                <li>
+                    <strong>{{ video.video_file.name }}</strong>
+                    <video width="320" height="240" controls>
+                        <source src="{{ video.video_file.url }}">
+                        Your browser does not support the video tag.
+                    </video>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No videos uploaded yet.</p>
+    {% endif %}
 </body>
 </html>
