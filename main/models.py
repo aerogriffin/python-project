@@ -13,3 +13,4 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=100)
     email = models.EmailField()
+    videos = models.ManyToManyField('Video', blank=True)
