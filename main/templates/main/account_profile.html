@@ -1,30 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../static/css/account_profile.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
-    <h1>User Profile</h1>
-    <p>Username: {{ username }}</p>
-    <p>Email: {{ email }}</p>
-    <h2>Videos Uploaded</h2>
-    {% if user_videos %}
-        <ul>
-            {% for video in user_videos %}
+    <header class="header">
+        <div class="menu-container">
+            <a href="{% url 'home' %}" class="logo">LOGO</a>
+            <input type="checkbox" id="menu" />
+            <label for="menu">
+                <img src="../../static/images/menu.png" class="menu-icono" alt="menu">
+            </label>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="{% url 'upload_video' %}" class="btn btn-primary">Convert</a></li>
+                    <li><a href="#">API</a></li>
+                    <li><a href="#">About</a></li>
+                    <li class="user-section" onclick="toggleUserOptions()">
+                        <img src="../../static/images/menu.png" alt="User Avatar" class="user-avatar">
+                        <div class="user-options" id="userOptions">
+                            <ul>
+                                <li>
+                                    <p>Welcome {{ username }}!!</p>
+                                </li>
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+        <div class="main">
+            <h2>Videos Uploaded</h2>
+            {% if user_videos %}
+            <ul>
+                {% for video in user_videos %}
                 <li>
-                    <strong>{{ video.video_file.name }}</strong>
+                    <strong class="video-name">{{ video.video_file.name }}</strong><br>
                     <video width="320" height="240" controls>
                         <source src="{{ video.video_file.url }}">
                         Your browser does not support the video tag.
                     </video>
+                    <a href="{{ video.video_file.url }}" download="{{ video.video_file.name }}"
+                        class="btn btn-download">
+                        <i class="fas fa-download"></i> Download
+                    </a>
                 </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No videos uploaded yet.</p>
-    {% endif %}
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No videos uploaded yet.</p>
+            {% endif %}
+        </div>
+    </header>
+
+    <footer class="footer container">
+
+        <div class="link">
+            <a href="#" class="logo">LOGO</a>
+        </div>
+
+        <div class="link">
+            <ul>
+                <li><a href="#">© 2023 Chromacraft Made in Krakow, Poland</a></li>
+            </ul>
+        </div>
+    </footer>
+    <script src="../../static/scripts/script.js"></script>
 </body>
+
 </html>
