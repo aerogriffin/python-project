@@ -149,6 +149,53 @@ img{
 }
 
 /* styles.css */
+.user-section {
+  cursor: pointer;
+  position: relative;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.user-options {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #30285A;
+  z-index: 1;
+}
+
+.user-options ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user-options li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-options li:last-child {
+  border-bottom: none;
+}
+
+.user-options a {
+  text-decoration: none;
+  color: #333;
+}
+
+.user-options a:hover {
+  background-color: #f1f1f1;
+}
 .main h2{
   color: #FFFFFF;
   font-family: 'Bruno Ace';
@@ -219,9 +266,8 @@ form .errorlist {
   margin-top: 5px;
 }
 
-/* Estilos para el botón de envío */
+
 form button {
-  /* Estilos específicos para el botón de envío */
   display: inline-block;
   padding: 10px 20px;
   font-size: 16px;
