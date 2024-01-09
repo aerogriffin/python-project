@@ -14,3 +14,4 @@ class UserProfile(models.Model):
     username = models.CharField(max_length=100)
     email = models.EmailField()
     videos = models.ManyToManyField('Video', blank=True)
+
