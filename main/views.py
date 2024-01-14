@@ -5,6 +5,14 @@ from django.shortcuts import redirect, render
 
 from .forms import VideoUploadForm
 from .models import UserProfile
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+import moviepy.editor as mp
+from moviepy.editor import VideoFileClip
+import os
+
+from .forms import VideoForm
+from .models import Video
 
 
 def home(request):
@@ -50,3 +58,38 @@ def account_profile(request):
         "main/account_profile.html",
         {"username": user_profile.username, "email": user_profile.email, "user_videos": user_videos},
     )
+
+
+def result(request, video_id):
+    # Aquí puedes procesar el video y mostrar el resultado
+    video = Video.objects.get(id=video_id)
+    return render(request, "video_filter/result.html", {"video": video})
+
+
+
+
+def download_video(request, video_id):
+    video = get_object_or_404(Video, id=video_id)
+
+    # Ruta del archivo de video original
+    original_video_path = video.video_file.path
+
+    # Ruta del archivo de video convertido a MP4
+    mp4_video_path = original_video_path.replace(os.path.splitext(original_video_path)[1], '.mp4')
+
+    try:
+        # Si el archivo no ha sido convertido a MP4, intenta hacerlo
+        if not os.path.exists(mp4_video_path):
+            clip = VideoFileClip(original_video_path)
+            clip.write_videofile(mp4_video_path, codec='libx264', audio_codec='aac')
+        
+        # Abre el archivo convertido en modo binario
+        with open(mp4_video_path, 'rb') as video_file:
+            # Crea la respuesta HTTP con el contenido del archivo
+            response = HttpResponse(video_file.read(), content_type='video/mp4')
+            # Configura el encabezado para forzar la descarga del archivo con un nombre específico
+            response['Content-Disposition'] = f'attachment; filename="{video.title}.mp4"'
+            return response
+    except Exception as e:
+        # Manejar cualquier error durante la conversión o lectura del archivo
+        return HttpResponse(f"Error: {str(e)}", status=500)
