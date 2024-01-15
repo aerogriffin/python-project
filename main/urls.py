@@ -18,6 +18,7 @@ urlpatterns = [
     path("account/profile/", views.account_profile, name="account_profile"),
     path("resultado/<int:video_id>/", result, name="result"),
     path("download/<int:video_id>/", download_video, name="download_video"),
+    path('video_list/', views.video_list, name='video_list'),
     
 ]
 
