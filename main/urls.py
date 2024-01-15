@@ -19,6 +19,7 @@ urlpatterns = [
     path("resultado/<int:video_id>/", result, name="result"),
     path("download/<int:video_id>/", download_video, name="download_video"),
     path('video_list/', views.video_list, name='video_list'),
+    path('apply_filter/<int:video_id>/<str:filter_type>/', apply_filter, name='apply_filter'),
     
 ]
 
