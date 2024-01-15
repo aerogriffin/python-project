@@ -1,18 +1,14 @@
+import os
+
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import redirect, render
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from moviepy.editor import VideoFileClip
 
 from .forms import VideoUploadForm
-from .models import UserProfile
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-import moviepy.editor as mp
-from moviepy.editor import VideoFileClip
-import os
-
-from .forms import VideoForm
-from .models import Video
+from .models import UserProfile, Video
 
 
 def home(request):
@@ -66,8 +62,6 @@ def result(request, video_id):
     return render(request, "video_filter/result.html", {"video": video})
 
 
-
-
 def download_video(request, video_id):
     video = get_object_or_404(Video, id=video_id)
 
@@ -75,25 +69,26 @@ def download_video(request, video_id):
     original_video_path = video.video_file.path
 
     # Ruta del archivo de video convertido a MP4
-    mp4_video_path = original_video_path.replace(os.path.splitext(original_video_path)[1], '.mp4')
+    mp4_video_path = original_video_path.replace(os.path.splitext(original_video_path)[1], ".mp4")
 
     try:
         # Si el archivo no ha sido convertido a MP4, intenta hacerlo
         if not os.path.exists(mp4_video_path):
             clip = VideoFileClip(original_video_path)
-            clip.write_videofile(mp4_video_path, codec='libx264', audio_codec='aac')
-        
+            clip.write_videofile(mp4_video_path, codec="libx264", audio_codec="aac")
+
         # Abre el archivo convertido en modo binario
-        with open(mp4_video_path, 'rb') as video_file:
+        with open(mp4_video_path, "rb") as video_file:
             # Crea la respuesta HTTP con el contenido del archivo
-            response = HttpResponse(video_file.read(), content_type='video/mp4')
+            response = HttpResponse(video_file.read(), content_type="video/mp4")
             # Configura el encabezado para forzar la descarga del archivo con un nombre específico
-            response['Content-Disposition'] = f'attachment; filename="{video.title}.mp4"'
+            response["Content-Disposition"] = f'attachment; filename="{video.title}.mp4"'
             return response
     except Exception as e:
         # Manejar cualquier error durante la conversión o lectura del archivo
-        return HttpResponse(f"Error: {str(e)}", status=500)
+        return HttpResponse(f"Error: {e!s}", status=500)
+
 
 def video_list(request):
     user_profiles = UserProfile.objects.all()
-    return render(request, 'main/video_list.html', {'user_profiles': user_profiles})
+    return render(request, "main/video_list.html", {"user_profiles": user_profiles})
