@@ -1,69 +1,80 @@
 import os
-
 from PIL import Image
 from moviepy.editor import AudioFileClip, TextClip, VideoFileClip
 from moviepy.video import fx
 from moviepy.video.fx import all as vfx
-from moviepy.video.io.ffmpeg_tools import concatenate_videoclips
+import face recognition
+import numpy as np
+from moviepy.editor import VideoFileClip
+from ESRGAN import esrgan_predict
 
-
-def cut_video(input_path, output_path, start, end):
-    clip = VideoFileClip(input_path).subclip(start, end)
-    clip.write_videofile(output_path)
-
-
-def join_videos(input_paths, output_path):
-    clips = [VideoFileClip(path) for path in input_paths]
-    final_clip = concatenate_videoclips(clips)
-    final_clip.write_videofile(output_path)
-
-
-def apply_slow_motion_effect(input_path, output_path, factor):
+def apply_slow_motion_effect(input_path, output_path, factor=0.5):
     clip = VideoFileClip(input_path).fx(fx.speedx, factor)
     clip.write_videofile(output_path)
 
-
-def add_text_to_video(input_path, output_path, texto, posicion="bottom", duracion=None):
-    clip = VideoFileClip(input_path)
-    texto_clip = TextClip(texto, fontsize=24, color="white", bg_color="black")
-    video_editado = clip.set_pos(posicion).set_duration(duracion).overlay(texto_clip, position=(10, 10))
-    video_editado.write_videofile(output_path)
-
-
-def add_music_to_video(video_path, music_path, output_path):
+def apply_grayscale_filter(video_path, output_path):
     video_clip = VideoFileClip(video_path)
-    music_clip = AudioFileClip(music_path)
-
-    video_with_music = video_clip.set_audio(music_clip)
-    video_with_music.write_videofile(output_path)
-
-
-def resize_video(video_path, output_path, new_width, new_height):
-    video_clip = VideoFileClip(video_path)
-    resized_video = video_clip.resize(width=new_width, height=new_height)
-    resized_video.write_videofile(output_path)
-
-
-def apply_color_filter(video_path, output_path, color="sepia"):
-    video_clip = VideoFileClip(video_path)
-    filtered_video = video_clip.fx(vfx.colorx, factor=0.5, rgb=color)
+    filtered_video = video_clip.fx(vfx.grayscale)
     filtered_video.write_videofile(output_path)
 
-
-def split_into_frames(video_path, output_folder):
+def apply_vignette_filter(video_path, output_path, strength=0.5):
     video_clip = VideoFileClip(video_path)
-    frames = video_clip.iter_frames(fps=1, dtype="uint8")
+    filtered_video = video_clip.fx(vfx.vignette, intensity=strength)
+    filtered_video.write_videofile(output_path)
+
+def apply_blur_filter(video_path, output_path, radius=5):
+    video_clip = VideoFileClip(video_path)
+    filtered_video = video_clip.fx(vfx.blur, size=radius)
+    filtered_video.write_videofile(output_path)
+
+def apply_sharpen_filter(video_path, output_path, amount=1.5):
+    video_clip = VideoFileClip(video_path)
+    filtered_video = video_clip.fx(vfx.sharpen, amount=amount)
+    filtered_video.write_videofile(output_path)
+
+def apply_contrast_enhancer_filter(video_path, output_path, factor=1.5):
+    video_clip = VideoFileClip(video_path)
+    filtered_video = video_clip.fx(vfx.contrast, amount=factor)
+    filtered_video.write_videofile(output_path)
+
+def apply_brightness_enhancer_filter(video_path, output_path):
+    video_clip = VideoFileClip(video_path)
+    filtered_video = video_clip.fx(vfx.brightness)
+    filtered_video.write_videofile(output_path)
+
+# filter with face recognition
+def apply_face_detection(video_path, output_path):
+    video_capture = cv2.VideoCapture(video_path)
+    width = int(video_capture.get(3))
+    height = int(video_capture.get(4))
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    output_video = cv2.VideoWriter(output_path, fourcc, 30.0, (width, height))
+    while True:
+        ret, frame = video_capture.read()
+        if not ret:
+            break
+
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        face_locations = face_recognition.face_locations(rgb_frame)
+        for face_location in face_locations:
+            top, right, bottom, left = face_location
+            cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
+
+        output_video.write(frame)
+
+    video_capture.release()
+    output_video.release()
+
+# filter with neural network
+def apply_super_resolution(video_path, output_path):
+    video_clip = VideoFileClip(video_path)
+    frames = [frame for frame in video_clip.iter_frames(fps=video_clip.fps)]
+    processed_video = VideoFileClip(video_path)
 
     for i, frame in enumerate(frames):
-        image = Image.fromarray(frame)
-        image.save(os.path.join(output_folder, f"frame_{i}.png"))
+        frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        frame_sr = esrgan_predict(frame_bgr)
+        frame_rgb = cv2.cvtColor(frame_sr, cv2.COLOR_BGR2RGB)
+        processed_video = processed_video.set_frame(frame_rgb, i / video_clip.fps)
 
-
-def overlay_videos(video1_path, video2_path, output_path):
-    video1_clip = VideoFileClip(video1_path)
-    video2_clip = VideoFileClip(video2_path)
-
-    overlaid_video = video1_clip.set_pos(("center", "center")).set_duration(video2_clip.duration)
-    overlaid_video = overlaid_video.overlay(video2_clip, position=("center", "center"))
-
-    overlaid_video.write_videofile(output_path)
+    processed_video.write_videofile(output_path, codec="libx264", audio_codec="aac")
