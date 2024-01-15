@@ -1,0 +1,32 @@
+<!-- video_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video List</title>
+</head>
+<body>
+    <h2>Video List</h2>
+    <ul>
+        {% for user_profile in user_profiles %}
+            <li>
+                {{ user_profile.username }}
+                {% if user_profile.videos.all %}
+                    <ul>
+                        {% for video in user_profile.videos.all %}
+                            <li>
+                                {{ video.video_file.name }}
+                                <video width="320" height="240" controls>
+                                    <source src="{{ video.video_file.url }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    No videos uploaded.
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
