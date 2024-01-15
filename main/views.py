@@ -9,6 +9,7 @@ from moviepy.editor import VideoFileClip
 
 from .forms import VideoUploadForm
 from .models import UserProfile, Video
+from .videoutils import apply_slow_motion_effect, apply_color_filter, apply_grayscale_filter, apply_vignette_filter, apply_blur_filter, apply_sharpen_filter, apply_contrast_enhancer_filter, apply_brightness_enhancer_filter, apply_face_detection
 
 
 def home(request):
@@ -41,6 +42,33 @@ def upload_video(request):
         form = VideoUploadForm()
     return render(request, "main/upload.html", {"form": form})
 
+def apply_filter(request, video_id, filter_type):
+    video = Video.objects.get(id=video_id)
+    video_path = video.video_file.path
+
+    output_path = f"media/filtered_videos/{request.user.username}_filtered.mp4"  
+
+    if filter_type == 'slow_motion':
+        apply_slow_motion_effect(video_path, output_path, factor=0.5)
+    elif filter_type == 'color_filter':
+        apply_color_filter(video_path, output_path, color="sepia")
+    elif filter_type == 'grayscale_filter':
+        apply_grayscale_filter(video_path, output_path)
+    elif filter_type == 'vignette_filter':
+        apply_vignette_filter(video_path, output_path, strength=0.5)
+    elif filter_type == 'blur_filter':
+        apply_blur_filter(video_path, output_path, radius=5)
+    elif filter_type == 'sharpen_filter':
+        apply_sharpen_filter(video_path, output_path, amount=1.5)
+    elif filter_type == 'contrast_enhancer_filter':
+        apply_contrast_enhancer_filter(video_path, output_path, factor=1.5)
+    elif filter_type == 'brightness_enhancer_filter':
+        apply_brightness_enhancer_filter(video_path, output_path)
+    elif filter_type == 'face_detection_filter':
+        apply_face_detection(video_path, output_path)
+
+    template_path = os.path.join('main', 'filter_result.html')
+    return render(request, template_path, context={'filtered_video_path': output_path})
 
 def account_profile(request):
     user = request.user
