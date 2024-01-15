@@ -93,3 +93,7 @@ def download_video(request, video_id):
     except Exception as e:
         # Manejar cualquier error durante la conversión o lectura del archivo
         return HttpResponse(f"Error: {str(e)}", status=500)
+
+def video_list(request):
+    user_profiles = UserProfile.objects.all()
+    return render(request, 'main/video_list.html', {'user_profiles': user_profiles})
