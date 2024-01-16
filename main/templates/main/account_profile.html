@@ -55,7 +55,7 @@
                             filterButtons.style.display = filterButtons.style.display === 'none' ? 'block' : 'none';
                         }
                     </script>
-                    <br><button class="filter" onclick="toggleFilterButtons('{{ video.id }}')">Apply Filter</button>
+                    <br><button class="btn-1" onclick="toggleFilterButtons('{{ video.id }}')">Apply Filter</button>
                     <div id="filterButtons{{ video.id }}" style="display: none;">
                         <form method="post" action="{% url 'apply_filter' video.id 'color_filter'%}">
                             {% csrf_token %}
@@ -94,8 +94,8 @@
                             <button type="submit">Face Detection Filter</button>
                         </form>
                     </div>
+                    
                 </li>
-                <a href="{% url 'download_video' video.id %}">Download Video</a><br><br>
                 {% endfor %}
             </ul>
             {% else %}
