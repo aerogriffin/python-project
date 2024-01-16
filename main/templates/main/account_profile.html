@@ -39,12 +39,12 @@
 
         </div>
         <div class="main">
-            <h2>Videos Uploaded</h2>
+            <h2>Videos Uploaded</h2><br>
             {% if user_videos %}
             <ul>
                 {% for video in user_videos %}
                 <li>
-                    <strong>{{ video.video_file.name }}</strong>
+                    <strong class="video-name">{{ video.video_file.name }}</strong><br>
                     <video width="320" height="240" controls>
                         <source src="{{ video.video_file.url }}">
                         Your browser does not support the video tag.
@@ -55,19 +55,47 @@
                             filterButtons.style.display = filterButtons.style.display === 'none' ? 'block' : 'none';
                         }
                     </script>
-                    <button onclick="toggleFilterButtons('{{ video.id }}')">Apply Filter</button>
+                    <br><button class="filter" onclick="toggleFilterButtons('{{ video.id }}')">Apply Filter</button>
                     <div id="filterButtons{{ video.id }}" style="display: none;">
-                        <form method="post" action="{% url 'apply_filter' video.id 'increase_brightness'%}">
+                        <form method="post" action="{% url 'apply_filter' video.id 'color_filter'%}">
                             {% csrf_token %}
-                            <button type="submit">Increase Brightness</button>
-                        </form>    
-                    
-                        <form method="post" action="{% url 'apply_filter' video.id 'decrease_brightness'%}">
+                            <button type="submit">Color Filter</button>
+                        </form>
+                        <form method="post" action="{% url 'apply_filter' video.id 'slow_motion' %}">
                             {% csrf_token %}
-                            <button type="submit">Decrease Brightness</button>
-                        </form>    
+                            <button type="submit">Slow Motion Filter</button>
+                        </form>
+                        <form method="post" action="{% url 'apply_filter' video.id 'grayscale_filter' %}">
+                            {% csrf_token %}
+                            <button type="submit">Grayscale Filter</button>
+                        </form>
+                        <form method="post" action="{% url 'apply_filter' video.id 'vignette_filter' %}">
+                            {% csrf_token %}
+                            <button type="submit">Vignette Filter</button>
+                        </form>
+                        <form method="post" action="{% url 'apply_filter' video.id 'blur_filter' %}">
+                            {% csrf_token %}
+                            <button type="submit">Blur Filter</button>
+                        </form>
+                        <form method="post" action="{% url 'apply_filter' video.id 'sharpen_filter' %}">
+                            {% csrf_token %}
+                            <button type="submit">Sharpen Filter</button>
+                        </form>
+                        <form method="post" action="{% url 'apply_filter' video.id 'contrast_enhancer_filter' %}">
+                            {% csrf_token %}
+                            <button type="submit">Contrast Enhancer Filter</button>
+                        </form>
+                        <form method="post" action="{% url 'apply_filter' video.id 'brightness_enhancer_filter' %}">
+                            {% csrf_token %}
+                            <button type="submit">Brightness Enhancer Filter</button>
+                        </form>
+                        <form method="post" action="{% url 'apply_filter' video.id 'face_detection_filter' %}">
+                            {% csrf_token %}
+                            <button type="submit">Face Detection Filter</button>
+                        </form>
                     </div>
                 </li>
+                <a href="{% url 'download_video' video.id %}">Download Video</a><br><br>
                 {% endfor %}
             </ul>
             {% else %}
