@@ -16,10 +16,10 @@
           <nav class="navbar">
             <ul>
               <li>
-                <a href="{% url 'video_list' %}" class="btn btn-primary">List of videos</a>
+                <a href="{% url 'video_list' %}" class="btn btn-primary">Explore</a>
               </li>
               <li>
-                <a href="{% url 'upload_video' %}" class="btn btn-primary">Convert</a>
+                <a href="{% url 'upload_video' %}" class="btn btn-primary">Upload</a>
               </li>
               {% if user.is_authenticated %}
                 <li>

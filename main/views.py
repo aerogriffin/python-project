@@ -3,17 +3,20 @@ import os
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from moviepy.editor import VideoFileClip
 
+from .filters import brightness_filter
 from .forms import VideoUploadForm
 from .models import UserProfile, Video
-from .videoutils import apply_slow_motion_effect, apply_color_filter, apply_grayscale_filter, apply_vignette_filter, apply_blur_filter, apply_sharpen_filter, apply_contrast_enhancer_filter, apply_brightness_enhancer_filter, apply_face_detection
 
 
 def home(request):
     return render(request, "main/home.html")
+
+
+def video_list(request):
+    user_profiles = UserProfile.objects.all()
+    return render(request, "main/video_list.html", {"user_profiles": user_profiles})
 
 
 def register(request):
@@ -42,34 +45,8 @@ def upload_video(request):
         form = VideoUploadForm()
     return render(request, "main/upload.html", {"form": form})
 
-def apply_filter(request, video_id, filter_type):
-    video = Video.objects.get(id=video_id)
-    video_path = video.video_file.path
 
-    output_path = f"media/filtered_videos/{request.user.username}_filtered.mp4"  
-
-    if filter_type == 'slow_motion':
-        apply_slow_motion_effect(video_path, output_path, factor=0.5)
-    elif filter_type == 'color_filter':
-        apply_color_filter(video_path, output_path, color="sepia")
-    elif filter_type == 'grayscale_filter':
-        apply_grayscale_filter(video_path, output_path)
-    elif filter_type == 'vignette_filter':
-        apply_vignette_filter(video_path, output_path, strength=0.5)
-    elif filter_type == 'blur_filter':
-        apply_blur_filter(video_path, output_path, radius=5)
-    elif filter_type == 'sharpen_filter':
-        apply_sharpen_filter(video_path, output_path, amount=1.5)
-    elif filter_type == 'contrast_enhancer_filter':
-        apply_contrast_enhancer_filter(video_path, output_path, factor=1.5)
-    elif filter_type == 'brightness_enhancer_filter':
-        apply_brightness_enhancer_filter(video_path, output_path)
-    elif filter_type == 'face_detection_filter':
-        apply_face_detection(video_path, output_path)
-
-    template_path = os.path.join('main', 'filter_result.html')
-    return render(request, template_path, context={'filtered_video_path': output_path})
-
+@login_required
 def account_profile(request):
     user = request.user
     user_profile, created = UserProfile.objects.get_or_create(
@@ -84,13 +61,46 @@ def account_profile(request):
     )
 
 
-def result(request, video_id):
-    # Aquí puedes procesar el video y mostrar el resultado
-    video = Video.objects.get(id=video_id)
-    return render(request, "video_filter/result.html", {"video": video})
+def view_video(request, video_id):
+    video = get_object_or_404(Video, id=video_id)
+    return render(request, "main/view_video.html", {"video": video})
 
 
-def download_video(request, video_id):
+@login_required
+def apply_filter(request, video_id, filter_type):
+    if request.method != "POST":
+        return redirect("error-page")
+
+    # Retrieve the original video
+    original_video = get_object_or_404(Video, id=video_id)
+    original_video_path = original_video.video_file.path
+    original_video_title = os.path.splitext(os.path.basename(original_video_path))[0]
+    extension = os.path.splitext(os.path.basename(original_video_path))[1]
+
+    # Apply color filter
+    if filter_type == "increase_brightness":
+        processed_clip = brightness_filter(original_video_path, factor=1.5)
+    elif filter_type == "decrease_brightness":
+        processed_clip = brightness_filter(original_video_path, factor=0.5)
+
+    # Generate a new file path for the processed video
+    processed_video_filename = f"{original_video_title}_{filter_type}{extension}"
+    processed_video_path = os.path.join(os.path.dirname(original_video_path), processed_video_filename)
+    processed_clip.write_videofile(processed_video_path)
+
+    # Create a new video object for the processed video
+    new_video_title = f"{original_video_title} {filter_type}"
+    new_video = Video(title=new_video_title, video_file=processed_video_path)
+    new_video.save()
+
+    # return redirect("view_video", video_id=new_video.id)
+
+    # Construct the direct URL to the video
+    video_url = f"http://localhost:8000/videos/{processed_video_filename}"
+    return redirect(video_url)
+
+
+"""def download_video(request, video_id):
     video = get_object_or_404(Video, id=video_id)
 
     # Ruta del archivo de video original
@@ -114,9 +124,4 @@ def download_video(request, video_id):
             return response
     except Exception as e:
         # Manejar cualquier error durante la conversión o lectura del archivo
-        return HttpResponse(f"Error: {e!s}", status=500)
-
-
-def video_list(request):
-    user_profiles = UserProfile.objects.all()
-    return render(request, "main/video_list.html", {"user_profiles": user_profiles})
+        return HttpResponse(f"Error: {e!s}", status=500)"""

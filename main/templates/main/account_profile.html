@@ -57,45 +57,17 @@
                     </script>
                     <button onclick="toggleFilterButtons('{{ video.id }}')">Apply Filter</button>
                     <div id="filterButtons{{ video.id }}" style="display: none;">
-                        <form method="post" action="{% url 'apply_filter' video.id 'color_filter'%}">
+                        <form method="post" action="{% url 'apply_filter' video.id 'increase_brightness'%}">
                             {% csrf_token %}
-                            <button type="submit">Color Filter</button>
-                        </form>
-                        <form method="post" action="{% url 'apply_filter' video.id 'slow_motion' %}">
+                            <button type="submit">Increase Brightness</button>
+                        </form>    
+                    
+                        <form method="post" action="{% url 'apply_filter' video.id 'decrease_brightness'%}">
                             {% csrf_token %}
-                            <button type="submit">Slow Motion Filter</button>
-                        </form>
-                        <form method="post" action="{% url 'apply_filter' video.id 'grayscale_filter' %}">
-                            {% csrf_token %}
-                            <button type="submit">Grayscale Filter</button>
-                        </form>
-                        <form method="post" action="{% url 'apply_filter' video.id 'vignette_filter' %}">
-                            {% csrf_token %}
-                            <button type="submit">Vignette Filter</button>
-                        </form>
-                        <form method="post" action="{% url 'apply_filter' video.id 'blur_filter' %}">
-                            {% csrf_token %}
-                            <button type="submit">Blur Filter</button>
-                        </form>
-                        <form method="post" action="{% url 'apply_filter' video.id 'sharpen_filter' %}">
-                            {% csrf_token %}
-                            <button type="submit">Sharpen Filter</button>
-                        </form>
-                        <form method="post" action="{% url 'apply_filter' video.id 'contrast_enhancer_filter' %}">
-                            {% csrf_token %}
-                            <button type="submit">Contrast Enhancer Filter</button>
-                        </form>
-                        <form method="post" action="{% url 'apply_filter' video.id 'brightness_enhancer_filter' %}">
-                            {% csrf_token %}
-                            <button type="submit">Brightness Enhancer Filter</button>
-                        </form>
-                        <form method="post" action="{% url 'apply_filter' video.id 'face_detection_filter' %}">
-                            {% csrf_token %}
-                            <button type="submit">Face Detection Filter</button>
-                        </form>
+                            <button type="submit">Decrease Brightness</button>
+                        </form>    
                     </div>
                 </li>
-                <a href="{% url 'download_video' video.id %}">Download Video</a>
                 {% endfor %}
             </ul>
             {% else %}
