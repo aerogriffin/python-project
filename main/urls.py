@@ -1,12 +1,10 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
-
 
 from . import views
-from .views import result, download_video, apply_filter
 
 
 urlpatterns = [
@@ -16,13 +14,10 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("upload/", views.upload_video, name="upload_video"),
     path("account/profile/", views.account_profile, name="account_profile"),
-    path("resultado/<int:video_id>/", result, name="result"),
-    path("download/<int:video_id>/", download_video, name="download_video"),
-    path('video_list/', views.video_list, name='video_list'),
-    path('apply_filter/<int:video_id>/<str:filter_type>/', apply_filter, name='apply_filter'),
-    
+    path("video_list/", views.video_list, name="video_list"),
+    path("apply_filter/<int:video_id>/<str:filter_type>/", views.apply_filter, name="apply_filter"),
+    path("view_video/<int:video_id>/", views.view_video, name="view_video"),
 ]
-
 
 
 if settings.DEBUG:
