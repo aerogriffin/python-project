@@ -106,30 +106,3 @@ def apply_filter(request, video_id, filter_type):
     new_video.save()
     video_url = f"http://localhost:8000/videos/{processed_video_filename}"
     return redirect(video_url)
-
-
-"""def download_video(request, video_id):
-    video = get_object_or_404(Video, id=video_id)
-
-    # Ruta del archivo de video original
-    original_video_path = video.video_file.path
-
-    # Ruta del archivo de video convertido a MP4
-    mp4_video_path = original_video_path.replace(os.path.splitext(original_video_path)[1], ".mp4")
-
-    try:
-        # Si el archivo no ha sido convertido a MP4, intenta hacerlo
-        if not os.path.exists(mp4_video_path):
-            clip = VideoFileClip(original_video_path)
-            clip.write_videofile(mp4_video_path, codec="libx264", audio_codec="aac")
-
-        # Abre el archivo convertido en modo binario
-        with open(mp4_video_path, "rb") as video_file:
-            # Crea la respuesta HTTP con el contenido del archivo
-            response = HttpResponse(video_file.read(), content_type="video/mp4")
-            # Configura el encabezado para forzar la descarga del archivo con un nombre específico
-            response["Content-Disposition"] = f'attachment; filename="{video.title}.mp4"'
-            return response
-    except Exception as e:
-        # Manejar cualquier error durante la conversión o lectura del archivo
-        return HttpResponse(f"Error: {e!s}", status=500)"""
