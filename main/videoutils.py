@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 def apply_slow_motion_effect(input_path, output_path, factor):
-    clip = VideoFileClip(input_path).fx(colorx, factor=0)  # Setting factor to 0 makes the video black and white
+    clip = VideoFileClip(input_path).fx(colorx, factor=0.5)  # Setting factor to 0 makes the video black and white
     clip.write_videofile(output_path)
 
 
