@@ -1,31 +1,97 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Video List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../static/css/video_list.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
-    <h2>Video List</h2>
-    <ul>
-        {% for user_profile in user_profiles %}
-            <li>
-                {{ user_profile.username }}
-                {% if user_profile.videos.all %}
-                    <ul>
+    <header class="header">
+        <div class="menu-container">
+            <a href="{% url 'home' %}" class="logo">LOGO</a>
+            <input type="checkbox" id="menu" />
+            <label for="menu">
+                <img src="../../static/images/menu.png" class="menu-icono" alt="menu">
+            </label>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="{% url 'upload_video' %}" class="btn btn-primary">Convert</a></li>
+                    <li><a href="#">API</a></li>
+                    <li><a href="#">About</a></li>
+                    <li class="user-section" onclick="toggleUserOptions()">
+                        <img src="../../static/images/menu.png" alt="User Avatar" class="user-avatar">
+                        <div class="user-options" id="userOptions">
+                            <ul>
+                                <li>
+                                    <p>Welcome {{ username }}!!</p>
+                                </li>
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+        <div class="main">
+            <h2>Video List</h2>
+            
+
+
+            <ul>
+                {% for user_profile in user_profiles %}
+                <br>
+                <li class="user-item">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <img src="../../static/images/user.png" alt="Profile Picture">
+                        </div>
+                        <div class="user-details">
+                            <strong class="user-name">{{ user_profile.username }}</strong>
+
+                        </div>
+                    </div>
+
+                    {% if user_profile.videos.all %}
+                    <ul class="video-list">
                         {% for video in user_profile.videos.all %}
-                            <li>
-                                {{ video.video_file.name }}
-                                <video width="320" height="240" controls>
-                                    <source src="{{ video.video_file.url }}" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </li>
+                        <li class="video-item">
+                            <strong class="video-name">{{ video.video_file.name }}</strong>
+                            <br>
+                            <video width="320" height="240" controls>
+                                <source src="{{ video.video_file.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </li>
                         {% endfor %}
                     </ul>
-                {% else %}
-                    No videos uploaded.
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+                    {% else %}
+                    <p>No videos uploaded.</p>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+
+    </header>
+    <footer class="footer container">
+        <div class="link">
+            <a href="#" class="logo">LOGO</a>
+        </div>
+        <div class="link">
+            <ul>
+                <li><a href="#">© 2023 Chromacraft Made in Krakow, Poland</a></li>
+            </ul>
+        </div>
+    </footer>
+    <script src="../../static/scripts/script.js"></script>
 </body>
+
 </html>
