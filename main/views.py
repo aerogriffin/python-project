@@ -58,7 +58,7 @@ def upload_video(request):
                 defaults={"username": request.user.username, "email": request.user.email},
             )
             request.user.userprofile.videos.add(video_instance)
-            return redirect("account/profile/")
+            return redirect("account_profile")
     else:
         form = VideoUploadForm()
     return render(request, "main/upload.html", {"form": form})
