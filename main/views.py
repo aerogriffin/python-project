@@ -43,13 +43,22 @@ def register(request):
 
 
 @login_required
+def logout():
+    return redirect("logout")
+
+
+@login_required
 def upload_video(request):
     if request.method == "POST":
         form = VideoUploadForm(request.POST, request.FILES)
         if form.is_valid():
             video_instance = form.save()
+            user_profile, created = UserProfile.objects.get_or_create(
+                user=request.user,
+                defaults={"username": request.user.username, "email": request.user.email},
+            )
             request.user.userprofile.videos.add(video_instance)
-            return redirect("/")
+            return redirect("account/profile/")
     else:
         form = VideoUploadForm()
     return render(request, "main/upload.html", {"form": form})
@@ -116,6 +125,7 @@ def apply_filter(request, video_id, filter_type):
     new_video = Video(title=new_video_title, video_file=processed_video_path)
     new_video.save()
 
+    # This is needed so the new video can be displayed in EXPLORE
     request.user.userprofile.videos.add(new_video)
 
     return render(request, "main/view_video.html/", {"video": new_video})
