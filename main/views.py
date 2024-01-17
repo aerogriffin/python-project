@@ -5,7 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .filters import brightness_filter, slow_motion_filter, mirror_filter, rotate_filter, black_and_white_filter, invert_colors_filter, substitute_face, apply_super_resolution
+from .filters import (
+    apply_super_resolution,
+    black_and_white_filter,
+    brightness_filter,
+    invert_colors_filter,
+    mirror_filter,
+    rotate_filter,
+    slow_motion_filter,
+    substitute_face,
+)
 from .forms import VideoUploadForm
 from .models import UserProfile, Video
 
@@ -73,8 +82,7 @@ def apply_filter(request, video_id, filter_type):
 
     original_video = get_object_or_404(Video, id=video_id)
     original_video_path = original_video.video_file.path
-    original_video_title = os.path.splitext(os.path.basename(original_video_path))[0]
-    extension = os.path.splitext(os.path.basename(original_video_path))[1]
+    original_video_title, extension = os.path.splitext(os.path.basename(original_video_path))
 
     if filter_type == "increase_brightness":
         processed_clip = brightness_filter(original_video_path, factor=1.5)
@@ -93,16 +101,21 @@ def apply_filter(request, video_id, filter_type):
     elif filter_type == "invert_colors":
         processed_clip = invert_colors_filter(original_video_path)
     elif filter_type == "substitute_face":
-        processed_clip = substitute_face(original_video_path, substitute_image_path='/home/tec_web/Escritorio/python-project-main/main/face_photo.jpg')
+        processed_clip = substitute_face(
+            original_video_path,
+            substitute_image_path=os.path.join("main", "face_photo.jpg"),
+        )
     elif filter_type == "super_resolution":
         processed_clip = apply_super_resolution(original_video_path)
 
     processed_video_filename = f"{original_video_title}_{filter_type}{extension}"
-    processed_video_path = os.path.join(os.path.dirname(original_video_path), processed_video_filename)
+    processed_video_path = os.path.join("videos", processed_video_filename)
     processed_clip.write_videofile(processed_video_path)
 
     new_video_title = f"{original_video_title} {filter_type}"
     new_video = Video(title=new_video_title, video_file=processed_video_path)
     new_video.save()
-    video_url = f"http://localhost:8000/videos/{processed_video_filename}"
-    return redirect(video_url)
+
+    request.user.userprofile.videos.add(new_video)
+
+    return render(request, "main/view_video.html/", {"video": new_video})
