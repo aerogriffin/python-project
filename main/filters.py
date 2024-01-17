@@ -1,41 +1,41 @@
+import cv2
 import face_recognition
 import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
-import cv2
-from moviepy.editor import VideoFileClip, ImageSequenceClip
-from moviepy.video.fx.all import colorx, speedx, mirror_x, rotate, blackwhite, invert_colors
+from moviepy.editor import ImageSequenceClip, VideoFileClip
+from moviepy.video.fx.all import blackwhite, colorx, invert_colors, mirror_x, rotate, speedx
 
 
 def brightness_filter(video_path, factor):
     clip = VideoFileClip(video_path)
-    brightness_clip = clip.fx(colorx, factor=factor)
-    return brightness_clip
+    return clip.fx(colorx, factor=factor)
+
 
 def slow_motion_filter(video_path, factor):
     clip = VideoFileClip(video_path)
-    slowed_clip = clip.fx(speedx, factor=factor)
-    return slowed_clip
+    return clip.fx(speedx, factor=factor)
+
 
 def mirror_filter(video_path):
     clip = VideoFileClip(video_path)
-    mirrored_clip = clip.fx(mirror_x)
-    return mirrored_clip
+    return clip.fx(mirror_x)
+
 
 def rotate_filter(video_path, angle):
     clip = VideoFileClip(video_path)
-    rotated_clip = clip.fx(rotate, angle=angle)
-    return rotated_clip
+    return clip.fx(rotate, angle=angle)
+
 
 def black_and_white_filter(video_path):
     clip = VideoFileClip(video_path)
-    bw_clip = clip.fx(blackwhite)
-    return bw_clip
+    return clip.fx(blackwhite)
+
 
 def invert_colors_filter(video_path):
     clip = VideoFileClip(video_path)
-    inverted_clip = clip.fx(invert_colors)
-    return inverted_clip
+    return clip.fx(invert_colors)
+
 
 def substitute_face(video_path, substitute_image_path):
     clip = VideoFileClip(video_path)
@@ -50,18 +50,16 @@ def substitute_face(video_path, substitute_image_path):
             top, right, bottom, left = face_location
             substitute_face = substitute_clip.get_frame(0)[top:bottom, left:right].copy()
             frame[top:bottom, left:right, :] = substitute_face
-        
+
         return frame
-    
-    result_clip = clip.fl_image(process_frame)
-    
-    return result_clip
+
+    return clip.fl_image(process_frame)
 
 
 def load_esrgan_model():
     esrgan_model_url = "https://tfhub.dev/captain-pool/esrgan-tf2/1"
-    esrgan_model = hub.load(esrgan_model_url)
-    return esrgan_model
+    return hub.load(esrgan_model_url)
+
 
 def apply_super_resolution(video_path):
     video_clip = VideoFileClip(video_path)
@@ -78,6 +76,4 @@ def apply_super_resolution(video_path):
         frame_rgb = cv2.cvtColor(frame_sr, cv2.COLOR_BGR2RGB)
         processed_frames.append(frame_rgb)
 
-    processed_clip = ImageSequenceClip(processed_frames, fps=video_clip.fps)
-    
-    return processed_clip
+    return ImageSequenceClip(processed_frames, fps=video_clip.fps)
