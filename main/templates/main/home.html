@@ -10,14 +10,11 @@
     <body>
       <header class="header">
         <div class="menu-container">
-          <a href="#" class="logo">LOGO</a>
+          <a href="#" class="logo">CHROMACRAFT</a>
           <input type="checkbox" id="menu" />
           <label for="menu"><img src="../../static/images/menu.png" class="menu-icono" alt="menu" /></label>
           <nav class="navbar">
             <ul>
-              <li>
-                <a href="{% url 'video_list' %}" class="btn btn-primary">Explore</a>
-              </li>
               <li>
                 <a href="{% url 'upload_video' %}" class="btn btn-primary">Upload</a>
               </li>
@@ -59,7 +56,7 @@
             <p>Chromacraft has been trusted by our users and customers since its founding in 2023. No one except you will ever have access to your files. We earn money by selling access to our API, not by selling your data. Read more about that in our Privacy Policy</p>
             <div class="buttons">
               <a href="#" class="btn-1">Information</a>
-              <a href="#" class="btn-1">Videos</a>
+              <a href="{% url 'video_list' %}" class="btn-1">Explore</a>
             </div>
           </div>
         </div>
@@ -67,7 +64,7 @@
 
       <footer class="footer container">
         <div class="link">
-          <a href="#" class="logo">LOGO</a>
+          <a href="#" class="logo">CHROMACRAFT</a>
         </div>
 
         <div class="link">
