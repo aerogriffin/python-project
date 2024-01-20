@@ -19,7 +19,7 @@
                     {% csrf_token %}
                     <h1>Create Account</h1>
                     <span>Enter the following information</span>
-
+                    <br>
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" required>
                     {% if form.username.errors %}
