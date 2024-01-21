@@ -54,60 +54,68 @@
                             const filterButtons = document.getElementById(`filterButtons${videoId}`);
                             filterButtons.style.display = filterButtons.style.display === 'none' ? 'block' : 'none';
                         }
+                        function showProcessingMessage() {
+                            const processingMessage = document.getElementById('processingMessage');
+                            processingMessage.style.display = 'block';
+                             
+                        }
                     </script>
+                    <div id="processingMessage" style="display: none;">
+                        Processing the video, please wait :).....
+                    </div>
                     <br><button class="btn-1" onclick="toggleFilterButtons('{{ video.id }}')">Apply Filter</button>
                     <div id="filterButtons{{ video.id }}" style="display: none;">
                         <form method="post" action="{% url 'apply_filter' video.id 'increase_brightness'%}">
                             {% csrf_token %}
-                            <button type="submit">Increase Brightness</button>
-                        </form>    
-                    
+                            <button type="submit" onclick="showProcessingMessage()">Increase Brightness</button>
+                        </form>
+
                         <form method="post" action="{% url 'apply_filter' video.id 'decrease_brightness'%}">
                             {% csrf_token %}
-                            <button type="submit">Decrease Brightness</button>
-                        </form> 
-                        
+                            <button type="submit" onclick="showProcessingMessage()">Decrease Brightness</button>
+                        </form>
+
                         <form method="post" action="{% url 'apply_filter' video.id 'slow_motion_effect'%}">
                             {% csrf_token %}
-                            <button type="submit">Slow Motion</button>
-                        </form> 
+                            <button type="submit" onclick="showProcessingMessage()">Slow Motion</button>
+                        </form>
 
                         <form method="post" action="{% url 'apply_filter' video.id 'speed-up_effect'%}">
                             {% csrf_token %}
-                            <button type="submit">Speed-up</button>
-                        </form> 
+                            <button type="submit" onclick="showProcessingMessage()">Speed-up</button>
+                        </form>
 
                         <form method="post" action="{% url 'apply_filter' video.id 'mirror'%}">
                             {% csrf_token %}
-                            <button type="submit">Mirror Effect</button>
-                        </form> 
+                            <button type="submit" onclick="showProcessingMessage()">Mirror Effect</button>
+                        </form>
 
                         <form method="post" action="{% url 'apply_filter' video.id 'rotate'%}">
                             {% csrf_token %}
-                            <button type="submit">Rotate</button>
-                        </form> 
+                            <button type="submit" onclick="showProcessingMessage()">Rotate</button>
+                        </form>
 
                         <form method="post" action="{% url 'apply_filter' video.id 'blackwhite'%}">
                             {% csrf_token %}
-                            <button type="submit">Black and White</button>
-                        </form> 
+                            <button type="submit" onclick="showProcessingMessage()">Black and White</button>
+                        </form>
 
                         <form method="post" action="{% url 'apply_filter' video.id 'invert_colors'%}">
                             {% csrf_token %}
-                            <button type="submit">Invert Colors</button>
-                        </form> 
+                            <button type="submit" onclick="showProcessingMessage()">Invert Colors</button>
+                        </form>
 
                         <form method="post" action="{% url 'apply_filter' video.id 'substitute_face'%}">
                             {% csrf_token %}
-                            <button type="submit">Substitute Face</button>
-                        </form> 
+                            <button type="submit" onclick="showProcessingMessage()">Substitute Face</button>
+                        </form>
 
                         <form method="post" action="{% url 'apply_filter' video.id 'super_resolution'%}">
                             {% csrf_token %}
-                            <button type="submit">Super Resolution</button>
-                        </form> 
+                            <button type="submit" onclick="showProcessingMessage()">Super Resolution</button>
+                        </form>
                     </div>
-                    
+
                 </li>
                 {% endfor %}
             </ul>
@@ -131,4 +139,3 @@
 </body>
 
 </html>
-
