@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Mina&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Trochut&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Orbitron:wght@400..900&family=Silkscreen:wght@400;700&display=swap');
 
 * {
   margin: 0;
@@ -149,7 +149,13 @@ img {
   cursor: pointer;
   margin-top: 20px;
 }
-
+#processingMessage {
+  display: none;
+  color: white;
+  font-family: "Silkscreen", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
 
 #fileInput {
   display: none;
@@ -317,19 +323,29 @@ form .errorlist {
 
 /* Estilos para el botón de envío */
 form button {
-  /* Estilos específicos para el botón de envío */
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  background-color: #028CAD;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
+    margin: 12px;
+    height: 50px;
+    width: 120px;
+    border-radius: 10px;
+    background: transparent;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -5px -5px 15px #06D2AC, 5px 5px 15px #206975;
+    font-family: "Damion", cursive;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+    color: white;
+    transition: 500ms;
+  }
+  
+  button:hover {
+    box-shadow: -5px -5px 15px #06D2AC, 5px 5px 15px #206975, inset 5px 5px 10px #6F3AA4
+      inset -5px -5px 10px #444;
+    color: #d6d6d6;
+    transition: 500ms;
+  }
+
 
 
 .footer {
